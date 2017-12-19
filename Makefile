@@ -111,12 +111,12 @@ travis-alpine-before_script: _tests-install _base-pull
 travis-alpine-script: alpine-build alpine-test
 
 travis-alpine-after_success:
-	docker tag builder:alpine "${TEMP_IMAGE_ALPINE}"
-	docker push "${TEMP_IMAGE_ALPINE}"
+	docker tag builder:alpine ${TEMP_IMAGE_ALPINE}
+	docker push ${TEMP_IMAGE_ALPINE}
 
 _travis-alpine-pull:
-	docker pull "${TEMP_IMAGE_ALPINE}"
-	docket tag "${TEMP_IMAGE_ALPINE}" builder:alpine
+	docker pull ${TEMP_IMAGE_ALPINE}
+	docket tag ${TEMP_IMAGE_ALPINE} builder:alpine
 
 
 ##########################################     Nginx     ##########################################
@@ -128,12 +128,12 @@ travis-nginx-before_script: _tests-install _travis-alpine-pull
 travis-nginx-script: nginx-build nginx-test
 
 travis-nginx-after_success:
-	docker tag builder:nginx "${TEMP_IMAGE_NGINX}"
-	docker push "${TEMP_IMAGE_NGINX}"
+	docker tag builder:nginx ${TEMP_IMAGE_NGINX}
+	docker push ${TEMP_IMAGE_NGINX}
 
 _travis-nginx-pull:
-	docker pull "${TEMP_IMAGE_NGINX}"
-	docket tag "${TEMP_IMAGE_NGINX}" builder:nginx
+	docker pull ${TEMP_IMAGE_NGINX}
+	docket tag ${TEMP_IMAGE_NGINX} builder:nginx
 
 
 ##########################################    PHP CLI    ##########################################
@@ -145,12 +145,12 @@ travis-php-cli-before_script: _tests-install _travis-alpine-pull
 travis-php-cli-script: php-cli-build php-cli-test
 
 travis-php-cli-after_success:
-	docker tag builder:php-cli "${TEMP_IMAGE_PHP_CLI}"
-	docker push "${TEMP_IMAGE_PHP_CLI}"
+	docker tag builder:php-cli ${TEMP_IMAGE_PHP_CLI}
+	docker push ${TEMP_IMAGE_PHP_CLI}
 
 _travis-php-cli-pull:
-	docker pull "${TEMP_IMAGE_PHP_CLI}"
-	docket tag "${TEMP_IMAGE_PHP_CLI}" builder:php-cli
+	docker pull ${TEMP_IMAGE_PHP_CLI}
+	docket tag ${TEMP_IMAGE_PHP_CLI} builder:php-cli
 
 
 ##########################################    PHP FPM    ##########################################
@@ -162,12 +162,12 @@ travis-php-fpm-before_script: _tests-install _travis-alpine-pull
 travis-php-fpm-script: php-fpm-build php-fpm-test
 
 travis-php-fpm-after_success:
-	docker tag builder:php-fpm "${TEMP_IMAGE_PHP_FPM}"
-	docker push "${TEMP_IMAGE_PHP_FPM}"
+	docker tag builder:php-fpm ${TEMP_IMAGE_PHP_FPM}
+	docker push ${TEMP_IMAGE_PHP_FPM}
 
 _travis-php-fpm-pull:
-	docker pull "${TEMP_IMAGE_PHP_FPM}"
-	docket tag "${TEMP_IMAGE_PHP_FPM}" builder:php-fpm
+	docker pull ${TEMP_IMAGE_PHP_FPM}
+	docket tag ${TEMP_IMAGE_PHP_FPM} builder:php-fpm
 
 
 ##########################################    Promote    ##########################################
@@ -175,11 +175,11 @@ _travis-php-fpm-pull:
 travis-promote-before_script: _travis-alpine-pull _travis-php-cli-pull _travis-php-fpm-pull _travis-nginx-pull
 
 travis-promote-script:
-	if [ "$TRAVIS_PULL_REQUEST" == 'false' ]; then \
-		docker tag "builder:${SERVICE}" "howtoadhd/base-images:${TRAVIS_BRANCH}-${SERVICE}"; \
-		docker push "howtoadhd/base-images:${TRAVIS_BRANCH}-${SERVICE}"; \
+	if [ $TRAVIS_PULL_REQUEST == 'false' ]; then \
+		docker tag builder:${SERVICE} howtoadhd/base-images:${TRAVIS_BRANCH}-${SERVICE}; \
+		docker push howtoadhd/base-images:${TRAVIS_BRANCH}-${SERVICE}; \
 	fi
-	if [ "$TRAVIS_PULL_REQUEST" == 'false' ] && [ "$TRAVIS_BRANCH" == 'master' ]; then \
-		docker tag "builder:${SERVICE}" "howtoadhd/base-images:latest-${SERVICE}"; \
-		docker push "howtoadhd/base-images:latest-${SERVICE}"; \
+	if [ $TRAVIS_PULL_REQUEST == 'false' ] && [ $TRAVIS_BRANCH == 'master' ]; then \
+		docker tag builder:${SERVICE} howtoadhd/base-images:latest-${SERVICE}; \
+		docker push howtoadhd/base-images:latest-${SERVICE}; \
 	fi
