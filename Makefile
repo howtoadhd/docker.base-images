@@ -116,7 +116,7 @@ travis-alpine-after_success:
 
 _travis-alpine-pull:
 	docker pull ${TEMP_IMAGE_ALPINE}
-	docket tag ${TEMP_IMAGE_ALPINE} builder:alpine
+	docker tag ${TEMP_IMAGE_ALPINE} builder:alpine
 
 
 ##########################################     Nginx     ##########################################
@@ -133,7 +133,7 @@ travis-nginx-after_success:
 
 _travis-nginx-pull:
 	docker pull ${TEMP_IMAGE_NGINX}
-	docket tag ${TEMP_IMAGE_NGINX} builder:nginx
+	docker tag ${TEMP_IMAGE_NGINX} builder:nginx
 
 
 ##########################################    PHP CLI    ##########################################
@@ -150,7 +150,7 @@ travis-php-cli-after_success:
 
 _travis-php-cli-pull:
 	docker pull ${TEMP_IMAGE_PHP_CLI}
-	docket tag ${TEMP_IMAGE_PHP_CLI} builder:php-cli
+	docker tag ${TEMP_IMAGE_PHP_CLI} builder:php-cli
 
 
 ##########################################    PHP FPM    ##########################################
@@ -167,7 +167,7 @@ travis-php-fpm-after_success:
 
 _travis-php-fpm-pull:
 	docker pull ${TEMP_IMAGE_PHP_FPM}
-	docket tag ${TEMP_IMAGE_PHP_FPM} builder:php-fpm
+	docker tag ${TEMP_IMAGE_PHP_FPM} builder:php-fpm
 
 
 ##########################################    Promote    ##########################################
