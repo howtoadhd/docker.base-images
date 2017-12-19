@@ -175,11 +175,11 @@ _travis-php-fpm-pull:
 travis-promote-before_script: _travis-alpine-pull _travis-php-cli-pull _travis-php-fpm-pull _travis-nginx-pull
 
 travis-promote-script:
-	if [ $TRAVIS_PULL_REQUEST == 'false' ]; then \
+	if [ $$TRAVIS_PULL_REQUEST == 'false' ]; then \
 		docker tag builder:${SERVICE} howtoadhd/base-images:${TRAVIS_BRANCH}-${SERVICE}; \
 		docker push howtoadhd/base-images:${TRAVIS_BRANCH}-${SERVICE}; \
 	fi
-	if [ $TRAVIS_PULL_REQUEST == 'false' ] && [ $TRAVIS_BRANCH == 'master' ]; then \
+	if [ $$TRAVIS_PULL_REQUEST == 'false' ] && [ $$TRAVIS_BRANCH == 'master' ]; then \
 		docker tag builder:${SERVICE} howtoadhd/base-images:latest-${SERVICE}; \
 		docker push howtoadhd/base-images:latest-${SERVICE}; \
 	fi
