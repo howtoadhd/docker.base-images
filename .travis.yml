@@ -1,0 +1,49 @@
+sudo: required
+
+services:
+  - docker
+
+stages:
+  - base
+  - services
+  - promote
+
+before_install:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y install docker-ce
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+
+jobs:
+  include:
+
+    - stage: alpine
+      before_script:
+        - make travis-alpine-before_script
+      script:
+        - make travis-alpine-script
+      after_success:
+        - make travis-alpine-after_success
+
+    - stage: services
+      env:
+        - SERVICE=nginx
+        - SERVICE=php-cli
+        - SERVICE=php-fpm
+      before_script:
+        - make travis-${SERVICE}-before_script
+      script:
+        - make travis-${SERVICE}-script
+      after_success:
+        - make travis-${SERVICE}-after_success
+
+    - stage: promote
+      env:
+        - SERVICE=nginx
+        - SERVICE=php-cli
+        - SERVICE=php-fpm
+      before_script:
+        - make travis-promote-before_script
+      script:
+        - make travis-promote-script

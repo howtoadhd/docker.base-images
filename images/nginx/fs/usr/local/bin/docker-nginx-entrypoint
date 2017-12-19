@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+if [[ -z ${ROOT_DOMAIN} ]]; then
+    echo "ROOT_DOMAIN env var must be set."
+    exit 1
+fi
+
+if [[ -z ${FASTCGI_PASS} ]]; then
+    echo "FASTCGI_PASS is not set defaulting to php:9000."
+    FASTCGI_PASS='php:9000'
+fi
+
+find /etc/nginx/ -type f -exec sed -i -e "s/%%!FASTCGI_PASS!%%/${FASTCGI_PASS}/" {} \;
+find /etc/nginx/ -type f -exec sed -i -e "s/%%!ROOT_DOMAIN!%%/${ROOT_DOMAIN}/" {} \;
+
+# first arg is `-f` or `--some-option`
+if [ "${1#-}" != "$1" ]; then
+	set -- nginx "$@"
+fi
+
+exec "$@"
