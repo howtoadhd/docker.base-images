@@ -2,7 +2,7 @@ SHELL := /bin/bash
 .DEFAULT_GOAL:= help
 
 help: ## Print this message.
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ':.*?## '}; {printf '\033[36m%-30s\033[0m %s\n', $$1, $$2}'
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 all: alpine php-cli php-fpm nginx ## Run all builds and tests.
 
@@ -31,7 +31,7 @@ alpine-test: ## Test the Alpine image.
 
 ##########################################     Nginx     ##########################################
 
-nginx: nginx-build nginx-test ## Build and test the Alpine image.
+nginx: nginx-build nginx-test ## Build and test the Nginx image.
 
 nginx-build: ## Build the Nginx image.
 	$(call build_image,nginx)
@@ -48,7 +48,7 @@ _php-base-build:
 
 ##########################################    PHP CLI    ##########################################
 
-php-cli: php-cli-build php-cli-test ## Build and test the Alpine image.
+php-cli: php-cli-build php-cli-test ## Build and test the PHP CLI image.
 
 php-cli-build: _php-base-build ## Build the PHP CLI image.
 	$(call build_image,php-cli)
@@ -59,7 +59,7 @@ php-cli-test: ## Test the PHP CLI image.
 
 ##########################################    PHP FPM    ##########################################
 
-php-fpm: php-fpm-build php-fpm-test ## Build and test the Alpine image.
+php-fpm: php-fpm-build php-fpm-test ## Build and test the PHP FPM image.
 
 php-fpm-build: _php-base-build ## Build the PHP FPM image.
 	$(call build_image,php-fpm)
