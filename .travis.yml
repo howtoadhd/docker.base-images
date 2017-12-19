@@ -29,19 +29,51 @@ jobs:
     - stage: services
       env:
         - SERVICE=nginx
+      before_script:
+        - make travis-nginx-before_script
+      script:
+        - make travis-nginx-script
+      after_success:
+        - make travis-nginx-after_success
+
+    - stage: services
+      env:
         - SERVICE=php-cli
+      before_script:
+        - make travis-php-cli-before_script
+      script:
+        - make travis-php-cli-script
+      after_success:
+        - make travis-php-cli-after_success
+
+    - stage: services
+      env:
         - SERVICE=php-fpm
       before_script:
-        - make travis-${SERVICE}-before_script
+        - make travis-php-fpm-before_script
       script:
-        - make travis-${SERVICE}-script
+        - make travis-php-fpm-script
       after_success:
-        - make travis-${SERVICE}-after_success
+        - make travis-php-fpm-after_success
 
     - stage: promote
       env:
         - SERVICE=nginx
+      before_script:
+        - make travis-promote-before_script
+      script:
+        - make travis-promote-script
+
+    - stage: promote
+      env:
         - SERVICE=php-cli
+      before_script:
+        - make travis-promote-before_script
+      script:
+        - make travis-promote-script
+
+    - stage: promote
+      env:
         - SERVICE=php-fpm
       before_script:
         - make travis-promote-before_script
