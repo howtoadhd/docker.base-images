@@ -11,7 +11,7 @@ all: alpine php-cli php-fpm nginx ## Run all builds and tests.
 prepare-env: _tests-install _base-pull  ## Setup prerequisites.
 
 _tests-install:
-	bundle install
+	bundle install --jobs=3 --retry=3 --deployment
 
 _base-pull:
 	docker pull alpine:3.7
@@ -83,7 +83,7 @@ define test_image
 	export TEST_CONTAINER="builder-${1}_${NOW}"; \
 	export TEST_CONTAINER_ARGS="${2}"; \
 	docker run --name="$${TEST_CONTAINER}" -d -i -t $${TEST_CONTAINER_ARGS} "builder:${1}" || exit 1; \
-	rspec "spec/${1}"; TEST_EC=$${?}; \
+	bundle exec rspec "spec/${1}"; TEST_EC=$${?}; \
 	docker kill $${TEST_CONTAINER}; \
 	docker rm -f $${TEST_CONTAINER} || exit 1; \
 	exit $${TEST_EC}
