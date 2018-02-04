@@ -40,6 +40,10 @@ shared_examples 'php::fpm' do
     it { should be_loaded }
   end
 
+  describe php_fpm_extension('pcntl') do
+    it { should_not be_loaded }
+  end
+
   describe php_fpm_extension('pcre') do
     it { should be_loaded }
   end

@@ -5,7 +5,8 @@ RUN set -x \
 \
     && apk add --no-cache \
         php7 \
-        php7-phar
+        php7-phar \
+        php7-pcntl
 
 COPY ./fs /
 

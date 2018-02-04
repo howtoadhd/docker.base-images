@@ -39,6 +39,10 @@ shared_examples 'php::cli' do
     it { should be_loaded }
   end
 
+  describe php_cli_extension('pcntl') do
+    it { should be_loaded }
+  end
+
   describe php_cli_extension('pcre') do
     it { should be_loaded }
   end
