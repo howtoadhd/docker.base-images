@@ -11,8 +11,6 @@ COPY ./fs /
 
 USER app
 
-EXPOSE 9000
-
 ENTRYPOINT ["docker-php-entrypoint"]
 
 CMD ["php"]
