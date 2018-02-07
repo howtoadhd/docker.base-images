@@ -20,6 +20,7 @@ describe 'Nginx:' do
   include_examples 'directory::www'
 
   include_examples 'packages::bash'
+  include_examples 'packages::less'
 
   include_examples 'nginx:nginx'
 end

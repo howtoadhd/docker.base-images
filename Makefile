@@ -177,8 +177,8 @@ travis-promote-before_script: _travis-alpine-pull _travis-php-cli-pull _travis-p
 
 travis-promote-script:
 	if [ $$TRAVIS_PULL_REQUEST == 'false' ]; then \
-		docker tag builder:${SERVICE} howtoadhd/base-images:${TRAVIS_BRANCH}-${SERVICE}; \
-		docker push howtoadhd/base-images:${TRAVIS_BRANCH}-${SERVICE}; \
+		docker tag builder:${SERVICE} howtoadhd/base-images:$${TRAVIS_BRANCH//\//__}-${SERVICE}; \
+		docker push howtoadhd/base-images:$${TRAVIS_BRANCH//\//__}-${SERVICE}; \
 	fi
 	if [ $$TRAVIS_PULL_REQUEST == 'false' ] && [ $$TRAVIS_BRANCH == 'master' ]; then \
 		docker tag builder:${SERVICE} howtoadhd/base-images:latest-${SERVICE}; \

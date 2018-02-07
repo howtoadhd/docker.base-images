@@ -19,4 +19,5 @@ describe 'Alpine:' do
   include_examples 'directory::www'
 
   include_examples 'packages::bash'
+  include_examples 'packages::less'
 end

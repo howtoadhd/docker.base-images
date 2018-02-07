@@ -8,7 +8,9 @@ MAINTAINER Lorelei Aurora <iam@l5i.me>
 
 RUN set -x \
 \
-    && apk add --no-cache bash \
+    && apk add --no-cache \
+        bash \
+        less \
     && sed -i 's#/bin/ash#/bin/bash#g' /etc/passwd \
 \
 	&& addgroup \
