@@ -19,6 +19,7 @@ describe 'PHP FPM:' do
   include_examples 'directory::www'
 
   include_examples 'packages::bash'
+  include_examples 'packages::less'
 
   include_examples 'php::fpm'
   include_examples 'php::fpm::extensions'

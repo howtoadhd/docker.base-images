@@ -19,6 +19,7 @@ describe 'PHP CLI:' do
   include_examples 'directory::www'
 
   include_examples 'packages::bash'
+  include_examples 'packages::less'
 
   include_examples 'php::cli'
   include_examples 'php::cli::extensions'
