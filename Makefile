@@ -4,7 +4,7 @@ SHELL := /bin/bash
 help: ## Print this message.
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-all: alpine php-cli php-cli-dev php-fpm php-fpm-dev nginx ## Run all builds and tests.
+all: alpine php-base php-cli php-cli-dev php-fpm php-fpm-dev nginx ## Run all builds and tests.
 
 
 ##########################################  Environment  ##########################################
@@ -42,7 +42,9 @@ nginx-test: ## Test the Nginx image.
 
 ##########################################    PHP Base   ##########################################
 
-_php-base-build:
+php-base: php-base-build ## Build the PHP Base image.
+
+php-base-build: ## Build the PHP Base image.
 	$(call build_image,php-base)
 
 
@@ -50,7 +52,7 @@ _php-base-build:
 
 php-cli: php-cli-build php-cli-test ## Build and test the PHP CLI image.
 
-php-cli-build: _php-base-build ## Build the PHP CLI image.
+php-cli-build: ## Build the PHP CLI image.
 	$(call build_image,php-cli)
 
 php-cli-test: ## Test the PHP CLI image.
@@ -72,7 +74,7 @@ php-cli-dev-test: ## Test the PHP CLI dev image.
 
 php-fpm: php-fpm-build php-fpm-test ## Build and test the PHP FPM image.
 
-php-fpm-build: _php-base-build ## Build the PHP FPM image.
+php-fpm-build: ## Build the PHP FPM image.
 	$(call build_image,php-fpm)
 
 php-fpm-test: ## Test the PHP FPM image.
@@ -159,11 +161,28 @@ _travis-nginx-pull:
 	docker tag ${TEMP_IMAGE_NGINX} builder:nginx
 
 
+##########################################    PHP Base   ##########################################
+
+export TEMP_IMAGE_PHP_BASE="${TEMP_IMAGE_BASE}__php-base"
+
+travis-php-base-before_script: _travis-alpine-pull
+
+travis-php-base-script: php-base-build
+
+travis-php-base-after_success:
+	docker tag builder:php-base ${TEMP_IMAGE_PHP_BASE}
+	docker push ${TEMP_IMAGE_PHP_BASE}
+
+_travis-php-base-pull:
+	docker pull ${TEMP_IMAGE_PHP_BASE}
+	docker tag ${TEMP_IMAGE_PHP_BASE} builder:php-base
+
+
 ##########################################    PHP CLI    ##########################################
 
 export TEMP_IMAGE_PHP_CLI="${TEMP_IMAGE_BASE}__php-cli"
 
-travis-php-cli-before_script: _tests-install _travis-alpine-pull
+travis-php-cli-before_script: _tests-install _travis-php-base-pull
 
 travis-php-cli-script: php-cli-build php-cli-test
 
@@ -197,7 +216,7 @@ _travis-php-cli-dev-pull:
 
 export TEMP_IMAGE_PHP_FPM="${TEMP_IMAGE_BASE}__php-fpm"
 
-travis-php-fpm-before_script: _tests-install _travis-alpine-pull
+travis-php-fpm-before_script: _tests-install _travis-php-base-pull
 
 travis-php-fpm-script: php-fpm-build php-fpm-test
 

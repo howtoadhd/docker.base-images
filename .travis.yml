@@ -5,6 +5,7 @@ services:
 
 stages:
   - alpine
+  - pre-services
   - services
   - services-dev
   - promote
@@ -26,6 +27,16 @@ jobs:
         - make travis-alpine-script
       after_success:
         - make travis-alpine-after_success
+
+    - stage: pre-services
+      env:
+        - SERVICE=php-base
+      before_script:
+        - make travis-php-base-before_script
+      script:
+        - make travis-php-base-script
+      after_success:
+        - make travis-php-base-after_success
 
     - stage: services
       env:
