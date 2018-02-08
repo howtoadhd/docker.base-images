@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'PHP FPM:' do
+describe 'PHP FPM Dev:' do
   before(:all) do
     set :os, family: :alpine
     set :backend, :docker
@@ -22,9 +22,9 @@ describe 'PHP FPM:' do
   include_examples 'packages::less'
 
   include_examples 'php::fpm'
-  include_examples 'php::prod::fpm::extensions'
+  include_examples 'php::fpm::extensions'
+  include_examples 'php::dev::fpm::extensions'
   include_examples 'php::fpm::config'
-  include_examples 'php::prod::fpm::config'
-  include_examples 'php::fpm::pool'
+  include_examples 'php::dev::fpm::config'
   include_examples 'php::fpm::pool'
 end

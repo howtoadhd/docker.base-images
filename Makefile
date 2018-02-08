@@ -4,7 +4,7 @@ SHELL := /bin/bash
 help: ## Print this message.
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-all: alpine php-cli php-cli-dev php-fpm nginx ## Run all builds and tests.
+all: alpine php-cli php-cli-dev php-fpm php-fpm-dev nginx ## Run all builds and tests.
 
 
 ##########################################  Environment  ##########################################
@@ -77,6 +77,17 @@ php-fpm-build: _php-base-build ## Build the PHP FPM image.
 
 php-fpm-test: ## Test the PHP FPM image.
 	$(call test_image,php-fpm)
+
+
+########################################    PHP FPM DEV    ########################################
+
+php-fpm-dev: php-fpm-dev-build php-fpm-dev-test ## Build and test the PHP FPM image.
+
+php-fpm-dev-build: ## Build the PHP FPM dev image.
+	$(call build_image,php-fpm-dev)
+
+php-fpm-dev-test: ## Test the PHP FPM dev image.
+	$(call test_image,php-fpm-dev)
 
 
 
@@ -197,6 +208,23 @@ travis-php-fpm-after_success:
 _travis-php-fpm-pull:
 	docker pull ${TEMP_IMAGE_PHP_FPM}
 	docker tag ${TEMP_IMAGE_PHP_FPM} builder:php-fpm
+
+
+########################################    PHP FPM DEV    ########################################
+
+export TEMP_IMAGE_PHP_FPM_DEV="${TEMP_IMAGE_BASE}__php-fpm-dev"
+
+travis-php-fpm-dev-before_script: _tests-install _travis-php-fpm-pull
+
+travis-php-fpm-dev-script: php-fpm-dev-build php-fpm-dev-test
+
+travis-php-fpm-dev-after_success:
+	docker tag builder:php-fpm-dev ${TEMP_IMAGE_PHP_FPM_DEV}
+	docker push ${TEMP_IMAGE_PHP_FPM_DEV}
+
+_travis-php-fpm-dev-pull:
+	docker pull ${TEMP_IMAGE_PHP_FPM_DEV}
+	docker tag ${TEMP_IMAGE_PHP_FPM_DEV} builder:php-fpm-dev
 
 
 ##########################################    Promote    ##########################################

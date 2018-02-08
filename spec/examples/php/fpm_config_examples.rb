@@ -47,10 +47,6 @@ shared_examples 'php::fpm::config' do
     its(:value) { should eq 'Off' }
   end
   
-  describe php_fpm_config('max_execution_time') do
-    its(:value) { should eq 30 }
-  end
-  
   describe php_fpm_config('max_input_time') do
     its(:value) { should eq 60 }
   end
@@ -61,14 +57,6 @@ shared_examples 'php::fpm::config' do
   
   describe php_fpm_config('memory_limit') do
     its(:value) { should eq '256M' }
-  end
-  
-  describe php_fpm_config('error_reporting') do
-    its(:value) { should eq 22527 } # E_ALL & ~E_DEPRECATED & ~E_STRICT
-  end
-  
-  describe php_fpm_config('display_errors') do
-    its(:value) { should eq 'Off' }
   end
   
   describe php_fpm_config('display_startup_errors') do
@@ -356,10 +344,6 @@ shared_examples 'php::fpm::config' do
   end
   
   describe php_fpm_config('opcache.validate_root') do
-    its(:value) { should eq 'Off' }
-  end
-  
-  describe php_fpm_config('opcache.validate_timestamps') do
     its(:value) { should eq 'Off' }
   end
   
