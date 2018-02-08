@@ -201,7 +201,7 @@ _travis-php-fpm-pull:
 
 ##########################################    Promote    ##########################################
 
-travis-promote-before_script: _travis-alpine-pull _travis-php-cli-pull _travis-php-fpm-pull _travis-nginx-pull
+travis-promote-before_script: _travis-${SERVICE}-pull
 
 travis-promote-script:
 	if [ $$TRAVIS_PULL_REQUEST == 'false' ]; then \
