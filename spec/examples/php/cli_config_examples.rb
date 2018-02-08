@@ -63,14 +63,6 @@ shared_examples 'php::cli::config' do
     its(:value) { should eq '256M' }
   end
 
-  describe php_cli_config('error_reporting') do
-    its(:value) { should eq 22527 } # E_ALL & ~E_DEPRECATED & ~E_STRICT
-  end
-
-  describe php_cli_config('display_errors') do
-    its(:value) { should eq 'Off' }
-  end
-
   describe php_cli_config('display_startup_errors') do
     its(:value) { should eq 'Off' }
   end
@@ -356,10 +348,6 @@ shared_examples 'php::cli::config' do
   end
 
   describe php_cli_config('opcache.validate_root') do
-    its(:value) { should eq 'Off' }
-  end
-
-  describe php_cli_config('opcache.validate_timestamps') do
     its(:value) { should eq 'Off' }
   end
 

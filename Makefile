@@ -4,7 +4,7 @@ SHELL := /bin/bash
 help: ## Print this message.
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-all: alpine php-cli php-fpm nginx ## Run all builds and tests.
+all: alpine php-cli php-cli-dev php-fpm nginx ## Run all builds and tests.
 
 
 ##########################################  Environment  ##########################################
@@ -55,6 +55,17 @@ php-cli-build: _php-base-build ## Build the PHP CLI image.
 
 php-cli-test: ## Test the PHP CLI image.
 	$(call test_image,php-cli)
+
+
+########################################    PHP CLI DEV    ########################################
+
+php-cli-dev: php-cli-dev-build php-cli-dev-test ## Build and test the PHP CLI dev image.
+
+php-cli-dev-build: ## Build the PHP CLI dev image.
+	$(call build_image,php-cli-dev)
+
+php-cli-dev-test: ## Test the PHP CLI dev image.
+	$(call test_image,php-cli-dev)
 
 
 ##########################################    PHP FPM    ##########################################
@@ -152,6 +163,23 @@ travis-php-cli-after_success:
 _travis-php-cli-pull:
 	docker pull ${TEMP_IMAGE_PHP_CLI}
 	docker tag ${TEMP_IMAGE_PHP_CLI} builder:php-cli
+
+
+########################################    PHP CLI DEV    ########################################
+
+export TEMP_IMAGE_PHP_CLI_DEV="${TEMP_IMAGE_BASE}__php-cli-dev"
+
+travis-php-cli-dev-before_script: _tests-install _travis-php-cli-pull
+
+travis-php-cli-dev-script: php-cli-dev-build php-cli-dev-test
+
+travis-php-cli-dev-after_success:
+	docker tag builder:php-cli-dev ${TEMP_IMAGE_PHP_CLI_DEV}
+	docker push ${TEMP_IMAGE_PHP_CLI_DEV}
+
+_travis-php-cli-dev-pull:
+	docker pull ${TEMP_IMAGE_PHP_CLI_DEV}
+	docker tag ${TEMP_IMAGE_PHP_CLI_DEV} builder:php-cli-dev
 
 
 ##########################################    PHP FPM    ##########################################

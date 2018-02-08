@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'PHP CLI:' do
+describe 'PHP CLI Dev:' do
   before(:all) do
     set :os, family: :alpine
     set :backend, :docker
@@ -19,11 +19,11 @@ describe 'PHP CLI:' do
   include_examples 'directory::www'
 
   include_examples 'packages::bash'
-  include_examples 'packages::less'
 
   include_examples 'php::cli'
   include_examples 'php::cli::extensions'
-  include_examples 'php::prod::cli::extensions'
+  include_examples 'php::dev::cli::extensions'
   include_examples 'php::cli::config'
-  include_examples 'php::prod::cli::config'
+  include_examples 'php::dev::cli::config'
+
 end

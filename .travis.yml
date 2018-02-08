@@ -6,6 +6,7 @@ services:
 stages:
   - alpine
   - services
+  - services-dev
   - promote
 
 before_install:
@@ -56,6 +57,16 @@ jobs:
       after_success:
         - make travis-php-fpm-after_success
 
+    - stage: services-dev
+      env:
+        - SERVICE=php-cli-dev
+      before_script:
+        - make travis-php-cli-dev-before_script
+      script:
+        - make travis-php-cli-dev-script
+      after_success:
+        - make travis-php-cli-dev-after_success
+
     - stage: promote
       env:
         - SERVICE=alpine
@@ -75,6 +86,14 @@ jobs:
     - stage: promote
       env:
         - SERVICE=php-cli
+      before_script:
+        - make travis-promote-before_script
+      script:
+        - make travis-promote-script
+
+    - stage: promote
+      env:
+        - SERVICE=php-cli-dev
       before_script:
         - make travis-promote-before_script
       script:
