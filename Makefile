@@ -4,7 +4,7 @@ SHELL := /bin/bash
 help: ## Print this message.
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-all: alpine php-base php-cli php-cli-dev php-fpm php-fpm-dev nginx ## Run all builds and tests.
+all: prepare-env alpine php-base php-cli php-cli-dev php-fpm php-fpm-dev nginx ## Run all builds and tests.
 
 
 ##########################################  Environment  ##########################################

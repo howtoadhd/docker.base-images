@@ -10,7 +10,7 @@ RUN set -x \
 
 COPY ./fs /
 
-USER app
+USER root
 
 ENTRYPOINT ["docker-php-entrypoint"]
 
