@@ -4,7 +4,7 @@ SHELL := /bin/bash
 help: ## Print this message.
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-all: prepare-env alpine php-base php-cli php-cli-dev php-fpm php-fpm-dev nginx ## Run all builds and tests.
+all: prepare-env alpine php-base php-cli php-cli-dev php-fpm php-fpm-dev nginx app-builder ## Run all builds and tests.
 
 
 ##########################################  Environment  ##########################################
@@ -90,6 +90,17 @@ php-fpm-dev-build: ## Build the PHP FPM dev image.
 
 php-fpm-dev-test: ## Test the PHP FPM dev image.
 	$(call test_image,php-fpm-dev)
+
+
+########################################    App Builder    ########################################
+
+app-builder: app-builder-build app-builder-test ## Build and test the App Builder image.
+
+app-builder-build: ## Build the PHP FPM dev image.
+	$(call build_image,app-builder)
+
+app-builder-test: ## Test the PHP FPM dev image.
+	$(call test_image,app-builder)
 
 
 
@@ -244,6 +255,23 @@ travis-php-fpm-dev-after_success:
 _travis-php-fpm-dev-pull:
 	docker pull ${TEMP_IMAGE_PHP_FPM_DEV}
 	docker tag ${TEMP_IMAGE_PHP_FPM_DEV} builder:php-fpm-dev
+
+
+########################################    App Builder    ########################################
+
+export TEMP_IMAGE_APP_BUILDER="${TEMP_IMAGE_BASE}__app-builder"
+
+travis-app-builder-before_script: _tests-install _travis-php-cli-pull
+
+travis-app-builder-script: app-builder-build app-builder-test
+
+travis-app-builder-after_success:
+	docker tag builder:app-builder ${TEMP_IMAGE_APP_BUILDER}
+	docker push ${TEMP_IMAGE_APP_BUILDER}
+
+_travis-app-builder-pull:
+	docker pull ${TEMP_IMAGE_APP_BUILDER}
+	docker tag ${TEMP_IMAGE_APP_BUILDER} builder:app-builder
 
 
 ##########################################    Promote    ##########################################

@@ -88,6 +88,16 @@ jobs:
       after_success:
         - make travis-php-fpm-dev-after_success
 
+    - stage: services-dev
+      env:
+        - SERVICE=app-builder
+      before_script:
+        - make travis-app-builder-before_script
+      script:
+        - make travis-app-builder-script
+      after_success:
+        - make travis-app-builder-after_success
+
     - stage: promote
       env:
         - SERVICE=alpine
@@ -131,6 +141,14 @@ jobs:
     - stage: promote
       env:
         - SERVICE=php-fpm-dev
+      before_script:
+        - make travis-promote-before_script
+      script:
+        - make travis-promote-script
+
+    - stage: promote
+      env:
+        - SERVICE=app-builder
       before_script:
         - make travis-promote-before_script
       script:
