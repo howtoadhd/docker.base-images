@@ -35,7 +35,7 @@ RUN set -x \
         php7-zlib \
 \
     && apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ \
-        php7-libsodium \
-    && echo 'extension=sodium.so' > /etc/php7/conf.d/50_libsodium.ini
+        php7-sodium \
+    && echo 'extension=sodium.so' > /etc/php7/conf.d/00_sodium.ini
 
 COPY ./fs /

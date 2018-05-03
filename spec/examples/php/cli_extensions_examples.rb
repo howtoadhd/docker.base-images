@@ -11,7 +11,7 @@ shared_examples 'php::cli::extensions' do
       { :package => 'iconv' },
       { :package => 'intl' },
       { :package => 'json' },
-      { :package => 'libsodium', :name => 'sodium' },
+      { :package => 'sodium', :name => 'sodium' },
       { :package => 'mbstring' },
       { :package => 'mcrypt' },
       { :package => 'memcached' },
