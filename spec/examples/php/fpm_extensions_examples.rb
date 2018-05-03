@@ -11,7 +11,6 @@ shared_examples 'php::fpm::extensions' do
       { :package => 'iconv' },
       { :package => 'intl' },
       { :package => 'json' },
-      { :package => 'sodium', :name => 'sodium' },
       { :package => 'mbstring' },
       { :package => 'mcrypt' },
       { :package => 'memcached' },
@@ -29,7 +28,6 @@ shared_examples 'php::fpm::extensions' do
       { :package => 'xmlreader' },
       { :package => 'xmlwriter' },
       { :package => 'zip' },
-      { :package => 'zlib' },
   ]
 
   php_extensions.each do |ext|

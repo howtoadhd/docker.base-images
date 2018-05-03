@@ -67,4 +67,8 @@ shared_examples 'php::fpm' do
   describe php_fpm_extension('standard') do
     it { should be_loaded }
   end
+
+  describe php_fpm_extension('zlib') do
+    it { should be_loaded }
+  end
 end

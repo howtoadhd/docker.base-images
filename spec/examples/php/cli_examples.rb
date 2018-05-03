@@ -66,4 +66,8 @@ shared_examples 'php::cli' do
   describe php_cli_extension('standard') do
     it { should be_loaded }
   end
+
+  describe php_cli_extension('zlib') do
+    it { should be_loaded }
+  end
 end
